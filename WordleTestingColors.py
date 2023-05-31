@@ -10,10 +10,14 @@ def wordle_result(guess_word, final_word):
         if guess_letter == final_letters[i]:
             result.append('g')  # Letter in the same place as the result
         elif guess_letter in final_letters:
-            if guess_letters[:i].count(guess_letter) < final_letters.count(guess_letter):
-                result.append('y')  # Letter appears in a different place
-            else:
-                result.append('-')  # Letter appears more in the guess word, mark as '-'
+            match_found = True
+            for y in range(len(final_letters)):
+                if final_letters[y] == guess_letter and guess_letters[y] != guess_letter:
+                    result.append('y')  # Letter appears more in the guess word, mark as '-'
+                    match_found = False
+                    break
+            if match_found:
+                result.append('-')  # Letter appears in a different place
         else:
             result.append('-')  # Letter not in the final word
 
