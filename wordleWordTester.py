@@ -24,7 +24,6 @@ def wordle_result(guess_word, final_word):
                 result.append('-')  # Letter appears in a different place
         else:
             result.append('-')  # Letter not in the final word
-
     # Turn result into a string
     result = ''.join(result)
     return result
@@ -95,10 +94,12 @@ best_words = input("masukkan kata 5 huruf: ")
 with open('wordle_indonesia.txt', 'r') as file:
     final_arr = [line.strip() for line in file]
 
+total_count = 0
 for final_word in final_arr:
+    total_count += 1
     guess_word = best_words
     loop_count = 0
-    with open('5letter_new.txt', 'r') as file:
+    with open('wordle_indonesia.txt', 'r') as file:
         eligible_words = [line.strip() for line in file]
 
     while True:
@@ -131,13 +132,13 @@ for final_word in final_arr:
         count_5 += 1
     if loop_count == 6:
         count_6 += 1
-    if loop_count > 6: 
+    if loop_count > 6:
         lost_count += 1
         print("lost")
     total_loop += loop_count
     total_tries += 1
 
-win_rate = 1-(lost_count/1473)
+win_rate = 1-(lost_count/total_count)
 avg_loop = total_loop/total_tries
 print(best_words, " = ", avg_loop)
 print("lost = ", lost_count )
@@ -148,3 +149,4 @@ print("3rd try = ", count_3)
 print("4th try = ", count_4)
 print("5th try = ", count_5)
 print("6th try = ", count_6)
+print("jumlah kata = ",total_count)

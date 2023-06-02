@@ -77,7 +77,7 @@ def find_top_entropy_words(guess_word, combination):
 
 
 # Example usage:
-guess_array = ['tarik','tikar','sakit','kuras','rakit','tukar','surat','sikat','sukar','sukat']
+guess_array = ['sarik', 'karis', 'tarik', 'katir', 'kiras', 'kasir', 'kitar', 'sarit', 'kisar', 'kurai']
 
 for best_words in guess_array:
     total_tries = 0
@@ -90,31 +90,46 @@ for best_words in guess_array:
     count_5 = 0
     count_6 = 0
 
-    with open('wordle_indonesia.txt', 'r') as file:
+    with open('5letter_new.txt', 'r') as file:
         final_arr = [line.strip() for line in file]
 
     for final_word in final_arr:
         guess_word = best_words
         loop_count = 0
-        with open('wordle_indonesia.txt', 'r') as file:
+        with open('5letter_new.txt', 'r') as file:
             eligible_words = [line.strip() for line in file]
 
-        while True:
+        loop_count += 1
+        combination = wordle_result(guess_word, final_word)
+        find_top_entropy_words(guess_word, combination)
+        if combination == 'ggggg':
+            print(best_words, " -> ", final_word)
+        else:
             loop_count += 1
+            guess_word = 'mules'
             combination = wordle_result(guess_word, final_word)
-
             if combination == 'ggggg':
                 print(best_words, " -> ", final_word)
-                break
-
-            top_entropy_words = find_top_entropy_words(guess_word, combination)
-
-            if not top_entropy_words:
-                print("Kombinasi tidak ditemukan: ", final_word)
-                break
             else:
+                top_entropy_words = find_top_entropy_words(guess_word, combination)
                 for word, entropy_total in top_entropy_words:
                     guess_word = word
+                while True:
+                    loop_count += 1
+                    combination = wordle_result(guess_word, final_word)
+
+                    if combination == 'ggggg':
+                        print(best_words, " -> ", final_word)
+                        break
+
+                    top_entropy_words = find_top_entropy_words(guess_word, combination)
+
+                    if not top_entropy_words:
+                        print("Kombinasi tidak ditemukan: ", final_word)
+                        break
+                    else:
+                        for word, entropy_total in top_entropy_words:
+                            guess_word = word
 
         print(f"Total loops: {loop_count}")
         if loop_count == 1:
@@ -151,13 +166,14 @@ for best_words in guess_array:
         file.write(f"5th try: {count_5}\n")
         file.write(f"6th try: {count_6}\n")
 
-# tarik: 4.208741141242601
-# tikar: 4.150048185662924
-# sakit: 4.146190398481941
-# kuras: 4.130723017353524
-# rakit: 4.121300570009099
-# tukar: 4.119299205592329
-# surat: 4.117283905852258
-# sikat: 4.116594488833842
-# sukar: 4.114549820621672
-# sukat: 4.103920462358214
+
+# sarik: 4.235048292028365
+# karis: 4.230758635538582
+# tarik: 4.2298244012551915
+# katir: 4.22078962767258
+# kiras: 4.215950015493982
+# kasir: 4.203769475649891
+# kitar: 4.202571289701053
+# sarit: 4.201290324167399
+# kisar: 4.188703756832649
+# kurai: 4.186796150907229

@@ -46,7 +46,7 @@ def calculate_entropy(guess_word):
 
     for result, count in results_count.items():
         probability = count / total_count
-        entropy = -probability * math.log2(probability)
+        entropy = probability * math.log2(1/probability)
         entropy_total += entropy
 
     return entropy_total
@@ -81,8 +81,9 @@ def find_top_entropy_words(guess_word, combination):
 
 
 # Example usage:
-with open('5letter_new.txt', 'r') as file:
+with open('wordle_indonesia.txt', 'r') as file:
     eligible_words = [line.strip() for line in file]
+    all_words = [line.strip() for line in file]
 
 loop_count = 0
 

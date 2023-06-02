@@ -26,7 +26,7 @@ def wordle_result(guess_word, final_word):
     return result
 
 # Open the wordle_indonesia.txt file
-with open('wordle_indonesia.txt', 'r') as file:
+with open('5letter_new.txt', 'r') as file:
     word_scores = []
 
     for guess_word in file:
@@ -53,7 +53,7 @@ with open('wordle_indonesia.txt', 'r') as file:
         # Calculate the probability multiplied by log(1/probability) for each result array
         for result, count in results_count.items():
             probability = count / total_count
-            log_probability = math.log(1 / probability)
+            log_probability = math.log2(1 / probability)
             entropy = probability * log_probability
             entropy_total += entropy
 
@@ -66,14 +66,13 @@ with open('wordle_indonesia.txt', 'r') as file:
     for word, entropy_total in word_scores[:10]:
         print(f'{word}: {entropy_total}')
 
-
-#tarik: 4.208741141242601
-#tikar: 4.150048185662924
-#sakit: 4.146190398481941
-#kuras: 4.130723017353524
-#rakit: 4.121300570009099
-#tukar: 4.119299205592329
-#surat: 4.117283905852258
-#sikat: 4.116594488833842
-#sukar: 4.114549820621672
-#sukat: 4.103920462358214
+# sarik: 6.109883168834591
+# karis: 6.103694502689655
+# tarik: 6.102346687521986
+# katir: 6.089312264478792
+# kiras: 6.082330179988905
+# kasir: 6.064757375560482
+# kitar: 6.06302875863403
+# sarit: 6.061180716011078
+# kisar: 6.043022137735417
+# kurai: 6.0402700441268555
