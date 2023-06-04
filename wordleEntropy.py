@@ -26,38 +26,37 @@ def wordle_result(guess_word, final_word):
     return result
 
 # Open the wordle_indonesia.txt file
-with open('5letter_new.txt', 'r') as file:
+with open('wordle_indonesia.txt', 'r') as file:
     word_scores = []
+    guess_word = input("Masukkan kata untuk cek entropi: ")
+    results_count = {}
+    total_count = 0
 
-    for guess_word in file:
-        guess_word = guess_word.strip()
-        results_count = {}
-        total_count = 0
+    # Open the wordle_indonesia.txt file again to process each final word
+    with open('katla_allwords.txt', 'r') as inner_file:
+        for line in inner_file:
+            final_word = line.strip()
+            result = tuple(wordle_result(guess_word, final_word))
 
-        # Open the wordle_indonesia.txt file again to process each final word
-        with open('wordle_indonesia.txt', 'r') as inner_file:
-            for line in inner_file:
-                final_word = line.strip()
-                result = tuple(wordle_result(guess_word, final_word))
+            # Update the count for each result array
+            if result in results_count:
+                results_count[result] += 1
+            else:
+                results_count[result] = 1
 
-                # Update the count for each result array
-                if result in results_count:
-                    results_count[result] += 1
-                else:
-                    results_count[result] = 1
+            total_count += 1
 
-                total_count += 1
+    entropy_total = 0
 
-        entropy_total = 0
+    # Calculate the probability multiplied by log(1/probability) for each result array
+    for result, count in results_count.items():
+        probability = count / total_count
+        log_probability = math.log2(1 / probability)
+        entropy = probability * log_probability
+        entropy_total += entropy
 
-        # Calculate the probability multiplied by log(1/probability) for each result array
-        for result, count in results_count.items():
-            probability = count / total_count
-            log_probability = math.log2(1 / probability)
-            entropy = probability * log_probability
-            entropy_total += entropy
+    word_scores.append((guess_word, entropy_total))
 
-        word_scores.append((guess_word, entropy_total))
 
     # Sort the word scores in descending order based on entropy_total
     word_scores.sort(key=lambda x: x[1], reverse=True)

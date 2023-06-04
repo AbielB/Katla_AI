@@ -99,7 +99,7 @@ for final_word in final_arr:
     total_count += 1
     guess_word = best_words
     loop_count = 0
-    with open('wordle_indonesia.txt', 'r') as file:
+    with open('katla_indonesia.txt', 'r') as file:
         eligible_words = [line.strip() for line in file]
 
     while True:
