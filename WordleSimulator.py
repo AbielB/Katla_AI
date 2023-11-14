@@ -8,6 +8,7 @@ def wordle_result(guess_word, final_word):
     final_letters = list(final_word)
 
     # Iterate through each letter in the guess word
+    already_yellow = []
     for i in range(len(guess_word)):
         guess_letter = guess_letters[i]
 
@@ -15,20 +16,26 @@ def wordle_result(guess_word, final_word):
             result.append('g')  # Letter in the same place as the result
         elif guess_letter in final_letters:
             match_found = True
+
+            count_guess = guess_letters.count(guess_letter)
+            count_final = final_letters.count(guess_letter)
             for y in range(len(final_letters)):
                 if final_letters[y] == guess_letter and guess_letters[y] != guess_letter:
-                    result.append('y')  # Letter appears more in the guess word, mark as '-'
-                    match_found = False
-                    break
+                    if guess_letter in already_yellow and count_guess > count_final:
+                        match_found = True
+                        break
+                    else:
+                        result.append('y')  # Letter appears more in the guess word, mark as '-'
+                        already_yellow.append(guess_letter)
+                        match_found = False
+                        break
             if match_found:
                 result.append('-')  # Letter appears in a different place
         else:
             result.append('-')  # Letter not in the final word
-
     # Turn result into a string
     result = ''.join(result)
     return result
-
 
 def calculate_entropy(guess_word):
     results_count = {}
@@ -68,8 +75,10 @@ def find_top_entropy_words(guess_word, combination):
     eligible_words.extend(new_eligible)
 
     word_scores = []
+    eligible_count = 0
 
     for word in eligible_words:
+        eligible_count += 1
         entropy_total = calculate_entropy(word)
         word_scores.append((word, entropy_total))
 
@@ -77,11 +86,11 @@ def find_top_entropy_words(guess_word, combination):
     word_scores.sort(key=lambda x: x[1], reverse=True)
 
     # Return the top 10 eligible words with their entropy scores and updated eligible_words
-    return word_scores[:5]
+    return word_scores[:10], eligible_count
 
 
 # Example usage:
-with open('wordle_indonesia.txt', 'r') as file:
+with open('5letter_indo.txt', 'r') as file:
     eligible_words = [line.strip() for line in file]
     all_words = [line.strip() for line in file]
 
@@ -98,12 +107,13 @@ while True:
 
     top_entropy_words = find_top_entropy_words(guess_word, combination)
 
-    if not top_entropy_words:
+    if not top_entropy_words[0]:
         print("Kombinasi tidak ditemukan.")
         break
     else:
         # Print the top 10 eligible words with their entropy scores
-        for word, entropy_total in top_entropy_words:
+        print('jumlah eligible = ',top_entropy_words[1])
+        for word, entropy_total in top_entropy_words[0]:
             print(f'{word}: {entropy_total}')
 
     print()  # Add a new line for separation

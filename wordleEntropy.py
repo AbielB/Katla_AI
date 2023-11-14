@@ -25,38 +25,38 @@ def wordle_result(guess_word, final_word):
 
     return result
 
-# Open the wordle_indonesia.txt file
-with open('wordle_indonesia.txt', 'r') as file:
-    word_scores = []
-    guess_word = input("Masukkan kata untuk cek entropi: ")
-    results_count = {}
-    total_count = 0
+word_scores = []  # Initialize the word_scores list outside the loop
 
-    # Open the wordle_indonesia.txt file again to process each final word
-    with open('katla_allwords.txt', 'r') as inner_file:
-        for line in inner_file:
-            final_word = line.strip()
-            result = tuple(wordle_result(guess_word, final_word))
+with open('5letter_indo.txt', 'r') as file:
+    for newline in file:
+        guess_word = newline.strip()
+        results_count = {}
+        total_count = 0
 
-            # Update the count for each result array
-            if result in results_count:
-                results_count[result] += 1
-            else:
-                results_count[result] = 1
+        # Open the WordlePossibleAnswer_en.txt file again to process each final word
+        with open('5letter_indo.txt', 'r') as inner_file:
+            for line in inner_file:
+                final_word = line.strip()
+                result = tuple(wordle_result(guess_word, final_word))
 
-            total_count += 1
+                # Update the count for each result array
+                if result in results_count:
+                    results_count[result] += 1
+                else:
+                    results_count[result] = 1
 
-    entropy_total = 0
+                total_count += 1
 
-    # Calculate the probability multiplied by log(1/probability) for each result array
-    for result, count in results_count.items():
-        probability = count / total_count
-        log_probability = math.log2(1 / probability)
-        entropy = probability * log_probability
-        entropy_total += entropy
+        entropy_total = 0
 
-    word_scores.append((guess_word, entropy_total))
+        # Calculate the probability multiplied by log(1/probability) for each result array
+        for result, count in results_count.items():
+            probability = count / total_count
+            log_probability = math.log2(1 / probability)
+            entropy = probability * log_probability
+            entropy_total += entropy
 
+        word_scores.append((guess_word, entropy_total))
 
     # Sort the word scores in descending order based on entropy_total
     word_scores.sort(key=lambda x: x[1], reverse=True)
@@ -64,14 +64,3 @@ with open('wordle_indonesia.txt', 'r') as file:
     # Print the top 10 words with the highest entropy_total
     for word, entropy_total in word_scores[:10]:
         print(f'{word}: {entropy_total}')
-
-# sarik: 6.109883168834591
-# karis: 6.103694502689655
-# tarik: 6.102346687521986
-# katir: 6.089312264478792
-# kiras: 6.082330179988905
-# kasir: 6.064757375560482
-# kitar: 6.06302875863403
-# sarit: 6.061180716011078
-# kisar: 6.043022137735417
-# kurai: 6.0402700441268555

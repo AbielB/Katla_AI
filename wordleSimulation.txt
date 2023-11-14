@@ -1,9 +1,10 @@
-sarik: 4.406592113007652
-lost: 491
-win rate: 0.6666666666666667
-1st try: 1
-2nd try: 1
-3rd try: 1700
-4th try: 3654
-5th try: 1929
-6th try: 719
+tarik  =  4.138856645385955
+lost =  325
+win rate =  0.9528438769587928
+1st try =  1
+2nd try =  184
+3rd try =  1945
+4th try =  2790
+5th try =  1199
+6th try =  448
+jumlah kata =  6892

@@ -8,6 +8,7 @@ def wordle_result(guess_word, final_word):
     final_letters = list(final_word)
 
     # Iterate through each letter in the guess word
+    already_yellow = []
     for i in range(len(guess_word)):
         guess_letter = guess_letters[i]
 
@@ -15,11 +16,19 @@ def wordle_result(guess_word, final_word):
             result.append('g')  # Letter in the same place as the result
         elif guess_letter in final_letters:
             match_found = True
+
+            count_guess = guess_letters.count(guess_letter)
+            count_final = final_letters.count(guess_letter)
             for y in range(len(final_letters)):
                 if final_letters[y] == guess_letter and guess_letters[y] != guess_letter:
-                    result.append('y')  # Letter appears more in the guess word, mark as '-'
-                    match_found = False
-                    break
+                    if guess_letter in already_yellow and count_guess > count_final:
+                        match_found = True
+                        break
+                    else:
+                        result.append('y')  # Letter appears more in the guess word, mark as '-'
+                        already_yellow.append(guess_letter)
+                        match_found = False
+                        break
             if match_found:
                 result.append('-')  # Letter appears in a different place
         else:
@@ -91,7 +100,7 @@ count_5 = 0
 count_6 = 0
 
 best_words = input("masukkan kata 5 huruf: ")
-with open('wordle_indonesia.txt', 'r') as file:
+with open('5letter_indo.txt', 'r') as file:
     final_arr = [line.strip() for line in file]
 
 total_count = 0
@@ -99,7 +108,7 @@ for final_word in final_arr:
     total_count += 1
     guess_word = best_words
     loop_count = 0
-    with open('katla_indonesia.txt', 'r') as file:
+    with open('5letter_indo.txt', 'r') as file:
         eligible_words = [line.strip() for line in file]
 
     while True:

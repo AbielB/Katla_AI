@@ -1,0 +1,9 @@
+lost: 7
+Avg Loop: 4.16
+win rate: 0.9299999999999999
+1st try: 0
+2nd try: 2
+3rd try: 28
+4th try: 36
+5th try: 23
+6th try: 4

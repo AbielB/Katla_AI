@@ -1,0 +1,9 @@
+sarik: 3.9099447513812153
+lost: 103
+win rate: 0.9300746775288526
+1st try: 0
+2nd try: 180
+3rd try: 1804
+4th try: 2262
+5th try: 838
+6th try: 243
